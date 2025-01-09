@@ -9,7 +9,7 @@ checkCommon
 check "git" git --version
 
 git_version=$(git --version)
-check-version-ge "git-requirement" "${git_version}" "git version 2.40.1"
+check-version-ge "git-requirement" "${git_version}" "git version 2.45.1"
 
 check "set-git-config-user-name" sh -c "sudo git config --system user.name devcontainers"
 check "gitconfig-file-location" sh -c "ls /etc/gitconfig"
@@ -189,9 +189,6 @@ ls -la /home/codespace
 checkPythonPackageVersion "python" "setuptools" "65.5.1"
 checkPythonPackageVersion "python" "requests" "2.31.0"
 checkPythonPackageVersion "python" "urllib3" "2.0.7"
-
-## Python 3.9
-checkPythonPackageVersion "/usr/local/python/3.9.*/bin/python" "setuptools" "65.5.1"
 
 ## Conda Python
 checkCondaPackageVersion "requests" "2.31.0"
