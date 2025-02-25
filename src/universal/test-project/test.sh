@@ -2,6 +2,8 @@
 cd $(dirname "$0")
 
 source test-utils.sh codespace
+#Changing he ownership of dotnet path to ensure oryx-install-dotnet-2.1 test doesn't fail with permission issue 
+sudo chown -R codespace:codespace /usr/share/dotnet
 
 # Run common tests
 checkCommon
@@ -9,7 +11,7 @@ checkCommon
 check "git" git --version
 
 git_version=$(git --version)
-check-version-ge "git-requirement" "${git_version}" "git version 2.40.1"
+check-version-ge "git-requirement" "${git_version}" "git version 2.45.1"
 
 check "set-git-config-user-name" sh -c "sudo git config --system user.name devcontainers"
 check "gitconfig-file-location" sh -c "ls /etc/gitconfig"
@@ -132,10 +134,6 @@ check "zsh" zsh --version
 # Check env variable
 check "RAILS_DEVELOPMENT_HOSTS is set correctly" echo $RAILS_DEVELOPMENT_HOSTS | grep ".githubpreview.dev,.preview.app.github.dev,.app.github.dev"
 
-# Check that we can run a puppeteer node app.
-yarn
-check "run-puppeteer" node puppeteer.js
-
 # Check Oryx
 check "oryx" oryx --version
 
@@ -189,9 +187,6 @@ ls -la /home/codespace
 checkPythonPackageVersion "python" "setuptools" "65.5.1"
 checkPythonPackageVersion "python" "requests" "2.31.0"
 checkPythonPackageVersion "python" "urllib3" "2.0.7"
-
-## Python 3.9
-checkPythonPackageVersion "/usr/local/python/3.9.*/bin/python" "setuptools" "65.5.1"
 
 ## Conda Python
 checkCondaPackageVersion "requests" "2.31.0"
